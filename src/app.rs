@@ -353,6 +353,10 @@ impl Core {
             }
             "broadcast" => {
                 let on = value["on"].as_bool().ok_or("Нужен статус показа")?;
+                #[cfg(not(windows))]
+                if on {
+                    crate::capture::screen(640)?;
+                }
                 self.teacher
                     .lock()
                     .unwrap()
@@ -400,6 +404,10 @@ impl Core {
             }
             "share" => {
                 let on = value["on"].as_bool().ok_or("Нужен статус показа")?;
+                #[cfg(not(windows))]
+                if on {
+                    crate::capture::screen(640)?;
+                }
                 let student = self.student.lock().unwrap();
                 let s = student.as_ref().ok_or("Сначала подключись")?;
                 if !s.state.lock().unwrap().connected {

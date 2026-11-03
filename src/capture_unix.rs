@@ -15,6 +15,9 @@ pub fn screen(width: u32) -> Result<String, String> {
         .find(|s| s.display_info.is_primary)
         .or(screens.first())
         .ok_or("Мониторы не найдены")?;
+    if screen.display_info.width > 16384 || screen.display_info.height > 16384 {
+        return Err("Неподдерживаемый размер экрана".into());
+    }
     let capture = screen
         .capture()
         .map_err(|e| format!("Разреши запись экрана в системных настройках: {e}"))?;
