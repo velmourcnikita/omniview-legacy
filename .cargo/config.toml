@@ -1,0 +1,4 @@
+[target.i686-win7-windows-msvc]
+rustflags = ["--cfg", 'getrandom_backend="windows_legacy"', "-C", "target-feature=+crt-static", "-C", "link-arg=/SUBSYSTEM:WINDOWS,6.01"]
+[target.x86_64-win7-windows-msvc]
+rustflags = ["--cfg", 'getrandom_backend="windows_legacy"', "-C", "target-feature=+crt-static", "-C", "link-arg=/SUBSYSTEM:WINDOWS,6.01"]

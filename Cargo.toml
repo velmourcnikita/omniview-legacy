@@ -1,0 +1,46 @@
+[package]
+name = "omniview-legacy"
+version = "0.2.0"
+edition = "2021"
+description = "OmniView for Windows 7, Linux and macOS"
+license = "MIT"
+
+[dependencies]
+serde = { version = "1", features = ["derive", "rc"] }
+serde_json = "1"
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
+rcgen = "0.14"
+getrandom = "0.3"
+ring = "0.17"
+base64 = "0.22"
+image = { version = "0.25", default-features = false, features = ["jpeg"] }
+[target.'cfg(any(target_os = "linux", target_os = "macos"))'.dependencies]
+eframe = { version = "=0.31.1", default-features = false, features = ["default_fonts", "glow", "x11", "wayland"] }
+screenshots = "=0.8.10"
+ureq = { version = "=2.12.1", default-features = false, features = ["tls"] }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.59", features = [
+  "Win32_Foundation",
+  "Win32_System_LibraryLoader",
+  "Win32_UI_Controls",
+  "Win32_Networking_WinHttp",
+  "Win32_System_Threading",
+  "Win32_Graphics_Gdi",
+  "Win32_System_Diagnostics_ToolHelp",
+  "Win32_UI_WindowsAndMessaging",
+  "Win32_UI_Input_KeyboardAndMouse"
+] }
+
+[[bin]]
+name = "omniview"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+rpath = false
+debug = false

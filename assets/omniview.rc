@@ -1,0 +1,29 @@
+#pragma code_page(65001)
+1 VERSIONINFO
+ FILEVERSION 0,2,0,0
+ PRODUCTVERSION 0,2,0,0
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0
+ FILEOS 0x40004L
+ FILETYPE 1
+ FILESUBTYPE 0
+BEGIN
+ BLOCK "StringFileInfo"
+ BEGIN
+  BLOCK "041904B0"
+  BEGIN
+   VALUE "CompanyName", "OmniCONTROL\0"
+   VALUE "FileDescription", "OmniView Legacy — подразделение OmniCONTROL\0"
+   VALUE "FileVersion", "0.2.0\0"
+   VALUE "InternalName", "OmniView\0"
+   VALUE "OriginalFilename", "OmniView.exe\0"
+   VALUE "ProductName", "OmniView\0"
+   VALUE "ProductVersion", "0.2.0\0"
+   VALUE "LegalCopyright", "OmniCONTROL\0"
+  END
+ END
+ BLOCK "VarFileInfo"
+ BEGIN
+  VALUE "Translation", 0x419, 1200
+ END
+END
