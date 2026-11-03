@@ -65,5 +65,6 @@ fn main() {
     }
     if let Err(e) = native::run() {
         native::error(&e);
+        std::process::exit(1);
     }
 }

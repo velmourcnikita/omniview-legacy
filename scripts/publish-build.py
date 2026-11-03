@@ -50,11 +50,15 @@ for path in files:
     asset = request('POST', upload, path.read_bytes(), True)
     assert asset.get('digest', '').startswith('sha256:'), 'GitHub did not return an asset digest'
 if preview:
+    # Draft releases do not create a tag until publication. Check the ref first;
+    # PATCH of a missing ref returns 422 rather than 404 on GitHub.
     try:
-        request('PATCH', 'git/refs/tags/preview', {'sha': sha, 'force': True})
+        request('GET', 'git/ref/tags/preview')
     except urllib.error.HTTPError as e:
         if e.code != 404:
             raise
         request('POST', 'git/refs', {'ref': 'refs/tags/preview', 'sha': sha})
+    else:
+        request('PATCH', 'git/refs/tags/preview', {'sha': sha, 'force': True})
 request('PATCH', 'releases/' + str(release['id']), payload)
 print(release['html_url'])

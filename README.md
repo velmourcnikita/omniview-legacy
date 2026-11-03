@@ -82,7 +82,7 @@ chmod +x OmniView OmniView-Student
 ./OmniView-Student
 ```
 
-Нужна настольная сессия и OpenGL. На Debian/Ubuntu библиотеки выполнения: `libx11-6 libxrandr2 libxcb1 libxcb-randr0 libdbus-1-3 libxkbcommon0 libgl1 libwayland-client0`. Ubuntu 22.04+ и Debian 12+ подходят по заявленной базе glibc; конкретную машину нужно проверить. Fedora/openSUSE/Arch могут использовать сборку при наличии совместимых библиотек. Alpine/musl требуют отдельной сборки, которой пока нет.
+Нужна настольная сессия и OpenGL. На Debian/Ubuntu библиотеки выполнения: `libx11-6 libxrandr2 libxi6 libxcursor1 libxinerama1 libxcb1 libxcb-randr0 libdbus-1-3 libxkbcommon0 libxkbcommon-x11-0 libgl1 libwayland-client0`. Ubuntu 22.04+ и Debian 12+ подходят по заявленной базе glibc; конкретную машину нужно проверить. Fedora/openSUSE/Arch могут использовать сборку при наличии совместимых библиотек. Alpine/musl требуют отдельной сборки, которой пока нет.
 
 В Wayland интерфейс и сеть работают, но эта версия не запрашивает портал записи экрана. Для показа экрана выбери X11 при входе. Код не обходит разрешения Wayland.
 
@@ -96,7 +96,7 @@ chmod +x OmniView OmniView-Student
 
 ```sh
 # Debian/Ubuntu, зависимости сборки:
-sudo apt-get install pkg-config libx11-dev libxrandr-dev libxcb1-dev libxcb-randr0-dev libdbus-1-dev libxkbcommon-dev libgl1-mesa-dev libwayland-dev
+sudo apt-get install pkg-config libx11-dev libxrandr-dev libxcb1-dev libxcb-randr0-dev libdbus-1-dev libxkbcommon-dev libxkbcommon-x11-0 libgl1-mesa-dev libwayland-dev
 cargo build --release --locked
 ```
 
