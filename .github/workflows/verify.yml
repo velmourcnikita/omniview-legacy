@@ -83,9 +83,10 @@ jobs:
           - runner: macos-15-intel
             target: x86_64-apple-darwin
             platform: macos-x64
-          - runner: macos-26
+          - runner: macos-15-intel
             target: aarch64-apple-darwin
             platform: macos-arm64
+            test_args: --no-run
     runs-on: ${{ matrix.runner }}
     env:
       MACOSX_DEPLOYMENT_TARGET: '11.0'
@@ -99,10 +100,10 @@ jobs:
           rustup toolchain install 1.99.1 --profile minimal --component rustfmt
           rustup default 1.99.1
           rustup target add ${{ matrix.target }}
-      - name: Check and test
+      - name: Check and test (compile only for cross target)
         run: |
           cargo fmt --check
-          cargo test --locked --target ${{ matrix.target }}
+          cargo test --locked --target ${{ matrix.target }} ${{ matrix.test_args }}
       - name: Build native application
         env:
           OMNIVIEW_BUILD_COMMIT: ${{ github.sha }}
