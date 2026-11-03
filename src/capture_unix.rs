@@ -1,5 +1,28 @@
 use base64::{engine::general_purpose::STANDARD, Engine};
+#[cfg(target_os = "macos")]
+#[link(name = "CoreGraphics", kind = "framework")]
+extern "C" {
+    fn CGPreflightScreenCaptureAccess() -> bool;
+    fn CGRequestScreenCaptureAccess() -> bool;
+}
+#[cfg(target_os = "macos")]
+const PERMISSION_ERROR: &str = "Разреши запись экрана для OmniView Legacy в настройках конфиденциальности macOS и перезапусти программу";
+
+/// Called on the UI thread only after the local user enables screen sharing.
+#[cfg(target_os = "macos")]
+pub fn request_permission() -> Result<(), String> {
+    // Both APIs are available on the minimum supported macOS version (11).
+    if unsafe { CGPreflightScreenCaptureAccess() || CGRequestScreenCaptureAccess() } {
+        Ok(())
+    } else {
+        Err(PERMISSION_ERROR.into())
+    }
+}
 pub fn screen(width: u32) -> Result<String, String> {
+    #[cfg(target_os = "macos")]
+    if !unsafe { CGPreflightScreenCaptureAccess() } {
+        return Err(PERMISSION_ERROR.into());
+    }
     #[cfg(target_os = "linux")]
     if std::env::var("XDG_SESSION_TYPE").is_ok_and(|s| s == "wayland")
         || std::env::var_os("WAYLAND_DISPLAY").is_some()

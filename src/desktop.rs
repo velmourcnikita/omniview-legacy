@@ -101,6 +101,13 @@ pub fn run() -> Result<(), String> {
 }
 impl Desktop {
     fn send(&self, value: Value) {
+        #[cfg(target_os = "macos")]
+        if value["on"] == true && matches!(value["action"].as_str(), Some("share" | "broadcast")) {
+            if let Err(e) = crate::capture::request_permission() {
+                self.core.feedback(&e);
+                return;
+            }
+        }
         let core = self.core.clone();
         std::thread::spawn(move || {
             if let Err(e) = core.handle(value) {
